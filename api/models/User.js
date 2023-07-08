@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-const UserSchema = new mongoose.Schema(
+import { Schema, model } from "mongoose";
+const UserSchema = new Schema(
   {
     username: {
       type: String,
@@ -37,3 +37,5 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+export default model("User", UserSchema);
