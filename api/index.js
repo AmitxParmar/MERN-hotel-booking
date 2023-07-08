@@ -4,6 +4,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+import hotelsRoute from "./routes/hotels.js";
+
+
 const app = express();
 dotenv.config();
 
@@ -27,6 +30,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Routes:: ->
+app.use("/api/hotels", hotelsRoute);
 
 // Error handling:: ->
 app.use((err, req, res, next) => {
@@ -43,5 +47,5 @@ app.use((err, req, res, next) => {
 // Server port:: ->
 app.listen(8800, () => {
   connect();
-  console.log("Connected to backend.");
+  console.log("Connected to backend. running on port 8800");
 });
