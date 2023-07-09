@@ -1,11 +1,12 @@
-import React from 'react'
+import Navbar from "@/components/navbar/Navbar.tsx";
+import "./home.css";
 
-type Props = {}
-
-const Home = (props: Props) => {
+const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <Navbar />
+    </div>
+  );
+};
 
 export default Home;
