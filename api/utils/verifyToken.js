@@ -16,7 +16,7 @@ export const verifyToken = (req, res, next) => {
 };
 
 // User verfiication
-export const verifyuser = (req, res, next) => {
+export const verifyUser = (req, res, next) => {
   verifyToken(req, res, next, () => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
