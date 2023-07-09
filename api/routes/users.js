@@ -17,7 +17,6 @@ router.delete("/:id", deleteUser);
 // Get:: ->
 router.get("/:id", getUser);
 
-
 //Get all:: ->
 router.get("/", getUsers);
 
