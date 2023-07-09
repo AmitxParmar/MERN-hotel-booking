@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
 });
 
 // Server port:: ->
-app.listen(8800, () => {
+app.listen(process.env.PORT, () => {
   connect();
-  console.log("Connected to backend. running on port 8800");
+  console.log(`Connected to backend. running on port  ${process.env.PORT}`);
 });
