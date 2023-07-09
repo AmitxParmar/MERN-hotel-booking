@@ -5,19 +5,20 @@ import {
   getUser,
   getUsers,
 } from "../controllers/user.js";
+import { verifyAdmin, verifyUser } from "../utils/verifyToken.js";
 
 const router = Router();
 
 // Update:: ->
-router.put("/:id", updateUser);
+router.put("/:id", verifyUser, updateUser);
 
 // Delete:: ->
-router.delete("/:id", deleteUser);
+router.delete("/:id", verifyUser, deleteUser);
 
 // Get:: ->
-router.get("/:id", getUser);
+router.get("/:id", verifyUser, getUser);
 
-//Get all:: ->
-router.get("/", getUsers);
+// Get all:: ->
+router.get("/", verifyAdmin, getUsers);
 
 export default router;
