@@ -1,7 +1,8 @@
+import "./home.css";
 import Navbar from "@/components/navbar/Navbar.tsx";
 import Header from "@/components/header/Header"
-import "./home.css";
 import Featured from "@/components/featured/Featured";
+import PropertyList from "@/components/propertyList/PropertyList";
 
 const Home = () => {
   return (
@@ -9,7 +10,9 @@ const Home = () => {
       <Navbar />
       <Header />
       <div className="homeContainer">
-        <Featured/>
+        <Featured />
+        <h1 className="homeTitle">Browse by property type</h1>
+        <PropertyList/>
       </div>
     </div>
   );

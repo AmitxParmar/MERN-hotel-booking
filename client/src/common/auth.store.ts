@@ -4,7 +4,7 @@ import { IUser } from "@/types";
 interface IAuth {
   user: IUser | null | undefined;
   loading: boolean; // I'll change that later
-  error: null | undefined;
+  error: null | undefined ;
   loginStart: () => void;
   loginSuccess: (user: IUser) => void;
   loginFailure: (error: null | undefined) => void;
