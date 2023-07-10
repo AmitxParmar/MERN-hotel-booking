@@ -1,11 +1,19 @@
-import React from 'react'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./login.css";
 
-type Props = {}
+const Login = () => {
+  const [credentials, setCredentials] = useState({
+    username: undefined,
+    password: undefined,
+  });
+  const navigate = useNavigate();
 
-const Login = (props: Props) => {
-  return (
-    <div>Login</div>
-  )
-}
+  return <div className="login">
+    <div className="lContainer">
+      <input type="password" className="lInput" />
+    </div>
+  </div>;
+};
 
-export default Login
+export default Login;
