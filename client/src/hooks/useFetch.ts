@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { IHotel, IRoom, IUser } from "@/types";
+
 
 interface FetchData<T> {
-    data: IHotel | IUser | IRoom;
+    data: T;
     loading: boolean;
-    error: boolean | T;
+    error: boolean | any;
     reFetch: () => Promise<void>;
 }
 
-const useFetch = <T>(url: string): FetchData<IHotel | IUser | IRoom> => {
-    const [data, setData] = useState<IHotel | IUser | IRoom>([]);
+const useFetch = <T>(url: string): FetchData<T[]> => {
+    const [data, setData] = useState<T[]>();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
 
@@ -18,7 +18,7 @@ const useFetch = <T>(url: string): FetchData<IHotel | IUser | IRoom> => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const res = await axios.get<T[]>(url)
+                const res = await axios.get<T[]>(url);
                 setData(res.data);
             } catch (err) {
                 setError(true);
@@ -33,17 +33,19 @@ const useFetch = <T>(url: string): FetchData<IHotel | IUser | IRoom> => {
         setLoading(true);
         try {
             const res = await axios.get<T[]>(url);
-            setData(res.data)
-            console.log(res.data,"usefetcher rs.data")
+            setData(res.data);
+            console.log(res.data, "usefetcher rs.data");
         } catch (err) {
-            setError(true)
+            setError(true);
         }
         setLoading(false);
     };
 
     return { data, loading, error, reFetch };
-
-}
+};
 
 export default useFetch;
+
+
+
 

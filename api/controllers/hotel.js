@@ -70,6 +70,7 @@ export const countByCity = async (req, res, next) => {
         return Hotel.countDocuments({ city: city });
       })
     );
+    res.status(200).json(list);
   } catch (err) {
     next(err);
   }
@@ -99,15 +100,13 @@ export const countByType = async (req, res, next) => {
 
 //
 export const getHotelRooms = async (req, res, next) => {
-    try {
-        const hotel = await Hotel.finfById(req.params.id);
-        const list = await Promise.all(
-            hotel.rooms.map(room => (
-                Room.findById(room)
-            ))
-        )
-        res.status(200).json(list);
-    } catch (err) {
-        next(err)
-    }
-}
+  try {
+    const hotel = await Hotel.findById(req.params.id);
+    const list = await Promise.all(
+      hotel.rooms.map((room) => Room.findById(room))
+    );
+    res.status(200).json(list);
+  } catch (err) {
+    next(err);
+  }
+};
