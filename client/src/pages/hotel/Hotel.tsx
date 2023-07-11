@@ -1,8 +1,97 @@
+import { useState } from "react";
+import Header from "@/components/header/Header";
+import Navbar from "@/components/navbar/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleArrowLeft,
+  faCircleArrowRight,
+  faCircleXmark,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import useFetch from "@/hooks/useFetch";
+import { useAuth } from "@/common/auth.store";
 
 const Hotel = () => {
-  return (
-    <div>Hotel</div>
-  )
-}
+  const user = useAuth((store) => store.user);
+  const [slideNumber, setSlideNumber] = useState<number>(0);
+  const [open, setOpen] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
-export default Hotel
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const id = location.pathname.split("/")[2];
+  console.log(location.pathname, location, "location hook hotelpage");
+
+  const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+
+  const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  function dayDifference(date1, date2) {
+    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    return diffDays;
+  }
+
+  const days = dayDifference(dates[0].endDate, dates[0].startDate);
+
+  const handleOpen = (i: number) => {
+    setSlideNumber(i);
+    setOpen(true);
+  };
+
+  const handleMove = (direction: "l" | "r") => {
+    let newSlideNumber;
+
+    if (direction === "l") {
+      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+    } else {
+      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+    }
+    setSlideNumber(newSlideNumber);
+  };
+  const handleClick = () => {
+    if (user) setOpenModal(true);
+    navigate("/login");
+  };
+  return (
+    <div>
+      <Navbar />
+      <Header type="list" />
+      {false ? (
+        "Loading..."
+      ) : (
+        <div className="hotelContainer">
+          {true && (
+            <div className="slider">
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                className="close"
+                onClick={() => setOpen(false)}
+              />
+              <FontAwesomeIcon
+                icon={faCircleArrowLeft}
+                className="arrow"
+                onClick={() => handleMove("l")}
+              />
+              <div className="sliderWrapper">
+                <img
+                  src={data.photos[slideNumber]}
+                  alt=""
+                  className="sliderImg"
+                />
+              </div>
+              <FontAwesomeIcon
+                icon={faCircleArrowRight}
+                className="arrow"
+                onClick={() => handleMove("r")}
+              />
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Hotel;
