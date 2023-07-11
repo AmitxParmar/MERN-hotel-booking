@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { IHotel, IRoom, IUser } from "@/types";
 
 interface FetchData<T> {
-    data: T[];
+    data: IHotel | IUser | IRoom;
     loading: boolean;
     error: boolean | T;
     reFetch: () => Promise<void>;
 }
 
-const useFetch = <T>(url: string): FetchData<T> => {
-    const [data, setData] = useState<T[]>([]);
+const useFetch = <T>(url: string): FetchData<IHotel | IUser | IRoom> => {
+    const [data, setData] = useState<IHotel | IUser | IRoom>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
 
@@ -33,6 +34,7 @@ const useFetch = <T>(url: string): FetchData<T> => {
         try {
             const res = await axios.get<T[]>(url);
             setData(res.data)
+            console.log(res.data,"usefetcher rs.data")
         } catch (err) {
             setError(true)
         }
