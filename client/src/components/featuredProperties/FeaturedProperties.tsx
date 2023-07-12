@@ -3,7 +3,7 @@ import "./featuredProperties.css";
 import { IHotel } from "@/types";
 
 const FeaturedProperties = () => {
-  const { data, loading } = useFetch<IHotel[]>("/hotels?featured=true&limit=4");
+  const { data, loading } = useFetch<IHotel[]>("api/hotels?featured=true&limit=4");
   return (
     <div className="fp">
       {loading ? (

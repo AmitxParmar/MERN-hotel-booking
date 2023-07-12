@@ -22,18 +22,18 @@ const Hotel = () => {
     dates: store.dates,
     options: store.options,
   }));
-
+  
   const [slideNumber, setSlideNumber] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-
+  
   const location = useLocation();
   const navigate = useNavigate();
-
+  
   const id = location.pathname.split("/")[2];
   console.log(location.pathname, location, "location hook hotelpage");
-
-  const { data, loading } = useFetch<IHotel>(`/hotels/find/${id}`);
+  
+  const { data, loading } = useFetch<IHotel>(`api/hotels/find/${id}`);
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 

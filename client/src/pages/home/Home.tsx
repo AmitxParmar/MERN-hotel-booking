@@ -6,8 +6,18 @@ import PropertyList from "@/components/propertyList/PropertyList";
 import FeaturedProperties from "@/components/featuredProperties/FeaturedProperties";
 import MailList from "@/components/mailList/MailList";
 import Footer from "@/components/footer/Footer";
+import React from "react";
 
 const Home = () => {
+  React.useEffect(() => {
+    const fetcher = async() => {
+      await fetch("/api/hotels")
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+    };
+    void fetcher();
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -19,7 +29,7 @@ const Home = () => {
         <h1 className="homeTitle">Homes guests love</h1>
         <FeaturedProperties />
         <MailList />
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );
