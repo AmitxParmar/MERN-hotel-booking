@@ -2,7 +2,11 @@ import { create } from "zustand";
 
 interface ISearchParams {
     city: string | undefined
-    dates: [Date] | []
+    dates: {
+        startDate: Date
+        endDate: Date
+        selection: string
+    }[] | []
     options: {
         adult: number | undefined
         children: number | undefined
@@ -20,4 +24,4 @@ export const useSearch = create<ISearchParams>(set => (
             room: undefined,
         },
     }
-))
+));

@@ -13,9 +13,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "@/hooks/useFetch";
 import { useAuth } from "@/common/auth.store";
 import { IHotel } from "@/types";
+import { useSearch } from "@/common/search.store";
 
 const Hotel = () => {
   const user = useAuth((store) => store.user);
+  
+  const { dates, options } = useSearch((store) => ({
+    dates: store.dates,
+    options: store.options,
+  }));
+
   const [slideNumber, setSlideNumber] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -26,10 +33,10 @@ const Hotel = () => {
   const id = location.pathname.split("/")[2];
   console.log(location.pathname, location, "location hook hotelpage");
 
-  const { data, loading, error } = useFetch<IHotel>(`/hotels/find/${id}`);
+  const { data, loading } = useFetch<IHotel>(`/hotels/find/${id}`);
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
-  
+
   function dayDifference(date1: Date, date2: Date) {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
     const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
@@ -61,11 +68,11 @@ const Hotel = () => {
     <div>
       <Navbar />
       <Header type="list" />
-      {false ? (
+      {loading ? (
         "Loading..."
       ) : (
         <div className="hotelContainer">
-          {true && (
+          {open && (
             <div className="slider">
               <FontAwesomeIcon
                 icon={faCircleXmark}
