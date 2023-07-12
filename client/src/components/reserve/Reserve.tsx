@@ -1,10 +1,10 @@
 import "./reserve.css";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 const Reserve = ({
   setOpen,
   hotelId,
 }: {
-  setOpen: React.SetStateAction<boolean>;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   hotelId: string;
 }) => {
   return <div>Reserve</div>;
