@@ -1,9 +1,16 @@
+import useFetch from "@/hooks/useFetch";
+import { IHotel } from "@/types";
 import "./featured.css";
 
 const Featured = () => {
+  const { data, loading } = useFetch<IHotel[]>(
+    "/hotels/countByCity?cities=berlin,madrid,london"
+  );
+  
+
   return (
     <div className="featured">
-      {false /* loading ? */ ? (
+      {loading ? (
         "Loading please wait...."
       ) : (
         <>
