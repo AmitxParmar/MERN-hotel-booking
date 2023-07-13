@@ -36,7 +36,7 @@ const Hotel = () => {
   const id = location.pathname.split("/")[2];
   console.log(location.pathname, location, "location hook hotelpage");
 
-  const { data, loading } = useFetch<IHotel>(`api/hotels/find/${id}`);
+  const { data, loading } =useFetch<IHotel>(`/api/hotels/find/${id}`);
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -118,6 +118,7 @@ const Hotel = () => {
             <div className="hotelImages">
               {data?.photos?.map((photo, i) => (
                 <img
+                  key={i}
                   src={photo}
                   alt="hotel image"
                   className="hotelImg"
@@ -127,7 +128,7 @@ const Hotel = () => {
             </div>
             <div className="hoteDetails">
               <div className="hoteDetailsTexts">
-                <h1 className="hotelTitle">{data.title}</h1>
+                <h1 className="hotelTitle">{data?.title}</h1>
                 <p className="hotelDesc">{data?.desc}</p>
               </div>
               <div className="hotelDetailsPrice">
@@ -137,8 +138,8 @@ const Hotel = () => {
                   excellent location score of 9.8!
                 </span>
                 <h2>
-                  <b>${days * data.cheapestPrice * options?.room}</b>({days}{" "}
-                  nights)
+                  <b>${days * data?.cheapestPrice * options?.room ?? 0}</b>(
+                  {days} nights)
                 </h2>
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>
