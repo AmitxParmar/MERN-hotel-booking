@@ -40,7 +40,7 @@ const Reserve = ({
     return dates;
   };
 
-  const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
+  const alldates = getDatesInRange(dates[0]?.startDate, dates[0]?.endDate);
 
   const isAvailable = (roomNumber: {
     number: number;
@@ -61,7 +61,7 @@ const Reserve = ({
         : selectedRooms.filter((item: string) => item !== value)
     );
   };
-  const handleClick = async () => {
+  const handleClick = async (): void => {
     try {
       await Promise.all(
         selectedRooms.map((roomId) => {
@@ -97,11 +97,24 @@ const Reserve = ({
               </div>
               <div className="rPrice">{room.price}</div>
             </div>
-            <div className="rselectRooms">
-              {rooms.roomNumbers.}
+            <div className="rSelectRooms">
+              {room.roomNumbers.map((roomNumber) => (
+                <div className="room">
+                  <label>{roomNumber.number}</label>
+                  <input
+                    type="checkbox"
+                    value={roomNumber?._id}
+                    onChange={handleSelect}
+                    disabled={!isAvailable(roomNumber)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         ))}
+        <button className="rButton" onClick={handleClick}>
+          Reserve Now!
+        </button>
       </div>
     </div>
   );

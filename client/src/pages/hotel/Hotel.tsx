@@ -64,8 +64,8 @@ const Hotel = () => {
     setSlideNumber(newSlideNumber);
   };
   const handleClick = () => {
-    if (user) setOpenModal(true);
-    navigate("/login");
+    /* if (user) */ setOpenModal(true);
+    /* navigate("/login"); */
   };
   return (
     <div>
