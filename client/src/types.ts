@@ -49,9 +49,9 @@ type Dates = {
     selection: string
 }
 type Options = {
-    adult: string | undefined
-    children: string | undefined
-    room: string | undefined
+    adult: number | undefined
+    children: number | undefined
+    room: number| undefined
 }
 export interface ISearchParams {
     city: string | undefined
@@ -60,7 +60,7 @@ export interface ISearchParams {
 }
 
 export interface ILocationState extends ISearchParams {
-    destination: string 
+    destination: string
 }
 /* roomNumbers: {
     number: number;

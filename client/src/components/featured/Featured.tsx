@@ -4,7 +4,7 @@ import "./featured.css";
 
 const Featured = () => {
   const { data, loading } = useFetch<IHotel[]>(
-    "api/hotels/countByCity?cities=berlin,madrid,london"
+    "/api/hotels/countByCity?cities=berlin,madrid,london"
   );
   
 
