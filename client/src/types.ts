@@ -24,7 +24,7 @@ export interface IHotel {
     rooms: [string]
     cheapestPrice: number
     featured: boolean
-    count:number
+    count: number
 }
 
 export interface IRoom {
@@ -39,6 +39,28 @@ export interface IRoom {
             unavailableDates: [Date]
         },
     ],
+}
+
+
+/* interface for Search */
+type Dates = {
+    startDate: Date
+    endDate: Date
+    selection: string
+}
+type Options = {
+    adult: string | undefined
+    children: string | undefined
+    room: string | undefined
+}
+export interface ISearchParams {
+    city: string | undefined
+    dates: Dates[]
+    options: Options
+}
+
+export interface ILocationState extends ISearchParams {
+    destination: string 
 }
 /* roomNumbers: {
     number: number;
