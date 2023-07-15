@@ -1,7 +1,8 @@
 import "./hotel.css";
+
 import { useState } from "react";
-import Header from "@/components/header/Header";
-import Navbar from "@/components/navbar/Navbar";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleArrowLeft,
@@ -9,14 +10,20 @@ import {
   faCircleXmark,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useLocation, useNavigate } from "react-router-dom";
-import useFetch from "@/hooks/useFetch";
-import { useAuth } from "@/common/auth.store";
-import { IHotel } from "@/types";
-import { useSearch } from "@/common/search.store";
+
+import Header from "@/components/header/Header";
+import Navbar from "@/components/navbar/Navbar";
+
+
 import MailList from "@/components/mailList/MailList";
 import Footer from "@/components/footer/Footer";
 import Reserve from "@/components/reserve/Reserve";
+
+import { useAuth } from "@/common/auth.store";
+import { useSearch } from "@/common/search.store";
+
+import useFetch from "@/hooks/useFetch";
+import { IHotel } from "@/types";
 
 const Hotel = () => {
   const user = useAuth((store) => store.user);
@@ -64,8 +71,8 @@ const Hotel = () => {
     setSlideNumber(newSlideNumber);
   };
   const handleClick = () => {
-    /* if (user) */ setOpenModal(true);
-    /* navigate("/login"); */
+    if (user) setOpenModal(true);
+    navigate("/login");
   };
   return (
     <div>
@@ -138,7 +145,7 @@ const Hotel = () => {
                   excellent location score of 9.8!
                 </span>
                 <h2>
-                  <b>${days * data?.cheapestPrice * options?.room ?? 0}</b>(
+                  <b>${days * Number(data?.cheapestPrice) * Number(options?.room) ?? 0}</b>(
                   {days} nights)
                 </h2>
                 <button onClick={handleClick}>Reserve or Book Now!</button>

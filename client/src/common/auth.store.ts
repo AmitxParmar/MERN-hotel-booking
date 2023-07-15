@@ -10,6 +10,7 @@ interface IAuth {
   loginFailure: (error: null | undefined) => void;
   logout: () => void;
 }
+
 export const useAuth = create<IAuth>((set) => ({
   user: null,
   loading: false,
