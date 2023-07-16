@@ -96,8 +96,8 @@ const Sidebar: React.FC = () => {
         </ul>
       </div>
       <div className="bottom">
-        <div className="colorOption" onClick={() => setTheme("LIGHT")} />
-        <div className="colorOption" onClick={() => setTheme("DARK")} />
+        <div className="colorOption" onClick={() => setTheme(false)} />
+        <div className="colorOption" onClick={() => setTheme(true)} />
       </div>
     </div>
   );
