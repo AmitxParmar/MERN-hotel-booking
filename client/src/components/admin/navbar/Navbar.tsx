@@ -13,42 +13,42 @@ import { useTheme } from "@/common/general.store";
 const Navbar = () => {
   const toggleTheme = useTheme((store) => store.toggle);
   return (
-    <div className="navbar">
-      <div className="wrapper">
-        <div className="search">
+    <div className="adminNavbar">
+      <div className="adminWrapper">
+        <div className="adminSearch">
           <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon />
+          <SearchOutlinedIcon /> 
         </div>
-        <div className="items">
-          <div className="item">
-            <LanguageOutlinedIcon className="icon" />
+        <div className="adminItems">
+          <div className="adminItem">
+            <LanguageOutlinedIcon className="adminIcon" />
             English
-          </div>
-          <div className="item">
+          </div> 
+          <div className="adminItem">
             <DarkModeOutlinedIcon
-              className="icon"
-              onClick={() => toggleTheme()}
+              className="adminIcon"
+              onClick={() => console.log("change function here")}
             />
           </div>
-          <div className="item">
-            <FullscreenExitOutlinedIcon className="icon" />
+          <div className="adminItem">
+            <FullscreenExitOutlinedIcon className="adminIcon" />
           </div>
-          <div className="item">
-            <NotificationsNoneOutlinedIcon className="icon" />
-            <div className="counter">1</div>
+          <div className="adminItem">
+            <NotificationsNoneOutlinedIcon className="adminIcon" />
+            <div className="adminCounter">1</div>
           </div>
-          <div className="item">
-            <ChatBubbleOutlineOutlinedIcon className="icon" />
-            <div className="counter">2</div>
+          <div className="adminItem">
+            <ChatBubbleOutlineOutlinedIcon className="adminIcon" />
+            <div className="adminCounter">2</div>
           </div>
-          <div className="item">
-            <ListOutlinedIcon className="icon" />
+          <div className="adminItem">
+            <ListOutlinedIcon className="adminIcon" />
           </div>
-          <div className="item">
+          <div className="adminItem">
             <img
               src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
               alt=""
-              className="avatar"
+              className="adminAvatar"
             />
           </div>
         </div>

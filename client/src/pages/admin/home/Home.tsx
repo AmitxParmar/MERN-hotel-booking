@@ -1,28 +1,32 @@
-import { useNavigate } from "react-router-dom";
+import './home.scss'
 
 import Navbar from "@/components/admin/navbar/Navbar";
 import Sidebar from "@/components/admin/sidebar/Sidebar";
 import Widget from "@/components/admin/widget/Widget";
 import Featured from "@/components/admin/featured/Featured";
+import Table from "@/components/admin/table/Table";
+import Chart from "@/components/admin/chart/Chart";
 
 const AdminHome = () => {
-  const navigate = useNavigate();
+  
   return (
-    <div className="home">
+    <div className="adminHome">
       <Sidebar />
-      <div className="homeContainer">
+      <div className="adminHomeContainer">
         <Navbar />
-        <div className="widgets">
+        <div className="adminWidgets">
           <Widget type="user" />
           <Widget type="order" />
           <Widget type="earning" />
           <Widget type="balance" />
         </div>
-        <div className="charts">
+        <div className="adminCharts">
           <Featured />
+          <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
         </div>
-        <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
+        <div className="adminListContainer">
+          <div className="adminListTitle">Latest Transactions</div>
+          <Table />
         </div>
       </div>
     </div>
