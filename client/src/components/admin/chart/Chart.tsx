@@ -24,8 +24,8 @@ interface IChart {
 
 const Chart: React.FC<IChart> = ({ aspect, title }) => {
   return (
-    <div className="chart">
-      <div className="title">{title}</div>
+    <div className="adminChart">
+      <div className="adminTitle">{title}</div>
       <ResponsiveContainer width="100%" aspect={aspect}>
         <AreaChart
           width={730}
@@ -40,7 +40,7 @@ const Chart: React.FC<IChart> = ({ aspect, title }) => {
             </linearGradient>
           </defs>
           <XAxis dataKey="name" stroke="gray" />
-          <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
+          <CartesianGrid strokeDasharray="3 3" className="adminChartGrid" />
           <Tooltip />
           <Area
             type="monotone"

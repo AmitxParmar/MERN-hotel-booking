@@ -19,85 +19,52 @@ const Sidebar: React.FC = () => {
   const setTheme = useTheme((store) => store.setTheme);
 
   return (
-    <div className="sidebar">
-      <div className="top">
-        <Link to={"/"} style={{ textDecoration: "none" }}>
-          <span className="logo">AP-booking</span>
+    <div className="adminSidebar">
+      <div className="adminTop">
+        <Link to="/admin/home" style={{ textDecoration: "none" }}>
+          <span className="adminLogo">JK Rooms</span>
         </Link>
       </div>
       <hr />
-      <div className="center">
+      <div className="adminCenter">
         <ul>
-          <p className="title">MAIN</p>
+          <p className="adminTitle">MAIN</p>
           <li>
-            <DashboardIcon className="icon" />
+            <DashboardIcon className="adminIcon" />
             <span>Dashboard</span>
           </li>
+          <p className="adminTitle">LISTS</p>
 
-          <p className="title">LIST</p>
-          <Link
-            to={"/users"}
-            style={{
-              textDecoration: "none",
-            }}
-          >
+          <Link to="/admin/userslist" style={{ textDecoration: "none" }}>
             <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Dashboard</span>
+              <PersonOutlineIcon className="adminIcon" />
+              <span>Users</span>
             </li>
           </Link>
-          <Link to={"/hotels"} style={{ textDecoration: "none" }}>
+
+          <Link to="/products" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
+              <StoreIcon className="adminIcon" />
               <span>Hotels</span>
             </li>
           </Link>
-          <Link to={"/rooms"} style={{ textDecoration: "none" }}>
-            <li>
-              <CreditCardIcon className="icon" />
-              <span>Rooms</span>
-            </li>
-          </Link>
           <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
-          <p className="title">USEFUL</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li>
-          <p className="title">SERVICE</p>
-          <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <ExitToAppIcon className="adminIcon" />
+            <button className="logoutButn" onClick={()=>console.log("logOut")}>
+              <span>Logout</span>
+            </button>
           </li>
         </ul>
       </div>
-      <div className="bottom">
-        <div className="colorOption" onClick={() => setTheme(false)} />
-        <div className="colorOption" onClick={() => setTheme(true)} />
+      <div className="adminBottom">
+        <div
+          className="adminColorOption"
+          onClick={() => setTheme(false)}
+        ></div>
+        <div
+          className="adminColorOption"
+          onClick={() => setTheme(true)}
+        ></div>
       </div>
     </div>
   );
