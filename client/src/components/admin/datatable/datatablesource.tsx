@@ -1,5 +1,13 @@
+import React from "react";
 
-export const userColumns = [
+type UserColumns = {
+  field: string;
+  headerName: string;
+  width: number;
+  renderCell?: (params: unknown) => React.JSX.Element;
+};
+
+export const userColumns: UserColumns[] = [
   { field: "id", headerName: "ID", width: 70 },
   {
     field: "user",
@@ -39,8 +47,16 @@ export const userColumns = [
   },
 ];
 
+type UserRows = {
+  id: number;
+  username: string;
+  img: string;
+  status: "active" | "passive" | "pending";
+  email: string;
+  age: number;
+};
 //temporary data
-export const userRows = [
+export const userRows: UserRows[] = [
   {
     id: 1,
     username: "Snow",
