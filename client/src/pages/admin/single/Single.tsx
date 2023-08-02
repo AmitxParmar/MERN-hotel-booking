@@ -1,8 +1,8 @@
-import './single.scss'
-import Sidebar from '@/components/admin/sidebar/Sidebar'
-import Navbar from '@/components/admin/navbar/Navbar';
-import Chart from '@/components/admin/chart/Chart';
-import List from '@/components/admin/table/Table';
+import "./single.scss";
+import Sidebar from "@/components/admin/sidebar/Sidebar";
+import Navbar from "@/components/admin/navbar/Navbar";
+import Chart from "@/components/admin/chart/Chart";
+import List from "@/components/admin/table/Table";
 
 const Single = () => (
   <div className="single">
@@ -53,3 +53,5 @@ const Single = () => (
     </div>
   </div>
 );
+
+export default Single;

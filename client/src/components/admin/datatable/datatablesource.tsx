@@ -1,6 +1,6 @@
 import React from "react";
 
-type UserColumns = {
+export type UserColumns = {
   field: string;
   headerName: string;
   width: number;
@@ -47,7 +47,7 @@ export const userColumns: UserColumns[] = [
   },
 ];
 
-type UserRows = {
+export type UserRows = {
   id: number;
   username: string;
   img: string;

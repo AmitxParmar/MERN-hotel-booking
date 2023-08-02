@@ -2,10 +2,15 @@ import "./new.scss";
 import Sidebar from "@/components/admin/sidebar/Sidebar";
 import Navbar from "@/components/admin/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-const New = ({ inputs, title }) => {
-  const [file, setFile] = useState("");
+interface INew {
+  inputs: HTMLInputElement[];
+  title: string;
+}
+
+const New: React.FC<INew> = ({ inputs, title }) => {
+  const [file, setFile] = useState<File | null>(null);
 
   return (
     <div className="new">
@@ -35,7 +40,7 @@ const New = ({ inputs, title }) => {
                 <input
                   type="file"
                   id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
+                  onChange={(e:ChangeEvent) => setFile(e.target.files[0])}
                   style={{ display: "none" }}
                 />
               </div>

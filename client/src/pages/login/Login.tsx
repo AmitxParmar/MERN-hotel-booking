@@ -20,22 +20,22 @@ const Login = () => {
     shallow
   );
 
-  const handleChange = (e) => {
+  const handleChange = (e): void => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-    console.log(credentials)
+    console.log(credentials);
   };
 
   const handleClick = async (e): void => {
     e.preventDefault();
     loginStart();
     try {
-      const res = await axios.post <Promise <T[]>>("/auth/login", credentials);
-      console.log(res,"res");
+      const res = await axios.post<Promise<T[]>>("/auth/login", credentials);
+      console.log(res, "res");
       loginSuccess(res.data.details);
       navigate("/");
     } catch (err) {
       loginFailure(err.response.data);
-      console.log(err,"err in handleClick");
+      console.log(err, "err in handleClick");
     }
   };
 
