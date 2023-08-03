@@ -10,6 +10,7 @@ import AdminHome from "./pages/admin/home/Home";
 import AdminList from "./components/admin/table/Table";
 import { useTheme } from "./common/general.store";
 import NewHotel from "./pages/admin/newHotel/NewHotel";
+import NewRoom from "./pages/admin/newRoom/newRoom";
 
 function App() {
   const darkMode = useTheme((store) => store.darkMode);
@@ -28,10 +29,15 @@ function App() {
       <div className={darkMode ? "app dark" : "app"}>
         <BrowserRouter>
           <Routes>
-            <Route path="/">
-              <Route path="/admin/home" element={<AdminHome />} />
-              <Route path="/admin/userslist" element={<AdminList />} />
-              <Route path="/admin/new" element={<NewHotel />} />
+            <Route path="/admin">
+              <Route path="home" element={<AdminHome />} />
+              <Route path="userslist" element={<AdminList />} />
+              <Route path="new" element={<NewHotel />} />
+
+              <Route path="rooms">
+                <Route path="new" element={<NewRoom />} />
+              </Route>
+              
             </Route>
           </Routes>
         </BrowserRouter>

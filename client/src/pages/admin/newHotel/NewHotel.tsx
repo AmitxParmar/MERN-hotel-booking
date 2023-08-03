@@ -18,12 +18,13 @@ const NewHotel = () => {
   const [rooms, setRooms] = useState<string[]>([]);
 
   const { data, loading } = useFetch<IRoom[]>("/api/rooms");
-
+console.log(rooms)
   // handle the info change
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    console.log({ [e.target.id]: e.target.value });
   };
 
   // handle the selected items
@@ -32,6 +33,7 @@ const NewHotel = () => {
       e.target.selectedOptions,
       (option) => option.value
     );
+    console.log(value, "value::handleSelect");
     setRooms(value);
   };
   console.log("files typecheck", typeof files, files);
@@ -61,7 +63,7 @@ const NewHotel = () => {
         photos: list,
       };
       toast.success("new hotel created!!");
-      await axios.post("/api/hotels", newhotel);
+      await axios.post(`/api/hotels/`, newhotel);
     } catch (err) {
       console.log(err);
     }
