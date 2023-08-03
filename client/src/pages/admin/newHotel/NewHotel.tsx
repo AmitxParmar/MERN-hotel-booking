@@ -8,8 +8,6 @@ import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 import { IRoom } from "@/types";
 
-
-
 const NewHotel = () => {
   const [files, serFiles] = useState("");
   const [info, setInfo] = useState({});
@@ -69,8 +67,8 @@ const NewHotel = () => {
               <div className="formInput">
                 <label>Featured</label>
                 <select id="featured" onChange={handleChange}>
-                  <option value={false}>No</option>
-                  <option value={true}>Yes</option>
+                  <option value={"false"}>No</option>
+                  <option value={"true"}>Yes</option>
                 </select>
               </div>
               <div className="selectRooms">
