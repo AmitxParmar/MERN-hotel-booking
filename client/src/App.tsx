@@ -9,6 +9,7 @@ import List from "./pages/list/List";
 import AdminHome from "./pages/admin/home/Home";
 import AdminList from "./components/admin/table/Table";
 import { useTheme } from "./common/general.store";
+import NewHotel from "./pages/admin/newHotel/NewHotel";
 
 function App() {
   const darkMode = useTheme((store) => store.darkMode);
@@ -30,6 +31,7 @@ function App() {
             <Route path="/">
               <Route path="/admin/home" element={<AdminHome />} />
               <Route path="/admin/userslist" element={<AdminList />} />
+              <Route path="/admin/new" element={<NewHotel />} />
             </Route>
           </Routes>
         </BrowserRouter>

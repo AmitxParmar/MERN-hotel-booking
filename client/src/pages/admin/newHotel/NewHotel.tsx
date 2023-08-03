@@ -1,22 +1,65 @@
 import "./newHotel.scss";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
+
 import Sidebar from "@/components/admin/sidebar/Sidebar";
 import Navbar from "@/components/admin/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
-/* import { hotelInputs } from "../../formSource"; */
-import useFetch from "../../hooks/useFetch";
+
 import axios from "axios";
+
+import useFetch from "@/hooks/useFetch";
 import { IRoom } from "@/types";
+import { hotelInputs } from "@/formSource";
 
 const NewHotel = () => {
-  const [files, serFiles] = useState("");
+  const [files, setFiles] = useState<FileList | null>(null);
   const [info, setInfo] = useState({});
-  const [rooms, setRooms] = useSTate([]);
+  const [rooms, setRooms] = useState<string[]>([]);
 
-  const { data, loading, error } = useFetch<IRoom[]>("/api/rooms");
+  const { data, loading } = useFetch<IRoom[]>("/api/rooms");
 
-  const handleChange = (e) => {
-    setInfo((prev) => ({ ...prev, [e.targer.id]: e.target.value }));
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setRooms(value);
+  };
+  console.log("files typecheck", typeof files, files);
+
+  const handleClick = async (e: MouseEvent): Promise<void> => {
+    e.preventDefault();
+    try {
+      const list = await Promise.all<FileList>(
+        Object.values(files as FileList).map(async (file) => {
+          const data = new FormData();
+          data.append("file", file);
+          data.append("upload_preset", "upload");
+          const uploadRes = await axios.post(
+            "https://api/cloudinary.com/v1_1/amitxparmar/image/upload",
+            data
+          );
+          const { url } = uploadRes.data;
+          return url;
+        })
+      );
+
+      const newhotel = {
+        ...info,
+        rooms,
+        photos: list,
+      };
+
+      await axios.post("/api/hotels", newhotel);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -48,7 +91,9 @@ const NewHotel = () => {
                   type="file"
                   id="file"
                   multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setFiles(e.target.files)
+                  }
                   style={{ display: "none" }}
                 />
               </div>
@@ -84,7 +129,7 @@ const NewHotel = () => {
                       ))}
                 </select>
               </div>
-              <button onClick={handleClick}>Send</button>
+              <button onClick={void handleClick}>Send</button>
             </form>
           </div>
         </div>
