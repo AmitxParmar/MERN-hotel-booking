@@ -4,7 +4,8 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import Sidebar from "@/components/admin/sidebar/Sidebar";
 import Navbar from "@/components/admin/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 import useFetch from "@/hooks/useFetch";
@@ -18,12 +19,14 @@ const NewHotel = () => {
 
   const { data, loading } = useFetch<IRoom[]>("/api/rooms");
 
+  // handle the info change
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
+  // handle the selected items
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = Array.from(
       e.target.selectedOptions,
@@ -33,10 +36,11 @@ const NewHotel = () => {
   };
   console.log("files typecheck", typeof files, files);
 
+  // submit buttom
   const handleClick = async (e: MouseEvent): Promise<void> => {
     e.preventDefault();
     try {
-      const list = await Promise.all<FileList>(
+      const list = await Promise.all<string>(
         Object.values(files as FileList).map(async (file) => {
           const data = new FormData();
           data.append("file", file);
@@ -46,7 +50,8 @@ const NewHotel = () => {
             data
           );
           const { url } = uploadRes.data;
-          return url;
+          console.log(url, "typecheck", typeof url);
+          return url as string;
         })
       );
 
@@ -55,7 +60,7 @@ const NewHotel = () => {
         rooms,
         photos: list,
       };
-
+      toast.success("new hotel created!!");
       await axios.post("/api/hotels", newhotel);
     } catch (err) {
       console.log(err);
@@ -64,6 +69,7 @@ const NewHotel = () => {
 
   return (
     <div className="new">
+      <ToastContainer />
       <Sidebar />
       <div className="newContainer">
         <Navbar />
