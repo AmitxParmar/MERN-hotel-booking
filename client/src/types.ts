@@ -51,12 +51,13 @@ type Dates = {
 type Options = {
     adult: number | undefined
     children: number | undefined
-    room: number| undefined
-}
+    room: number | undefined
+} 
+
 export interface ISearchParams {
     city: string | undefined
     dates: Dates[]
-    options: Options
+    options: Options | undefined | null
 }
 
 export interface ILocationState extends ISearchParams {

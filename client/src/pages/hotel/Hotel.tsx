@@ -14,13 +14,12 @@ import {
 import Header from "@/components/header/Header";
 import Navbar from "@/components/navbar/Navbar";
 
-
 import MailList from "@/components/mailList/MailList";
 import Footer from "@/components/footer/Footer";
 import Reserve from "@/components/reserve/Reserve";
 
 import { useAuth } from "@/common/auth.store";
-import { useSearch } from "@/common/search.store";
+import { useSearchStore } from "@/common/search.store";
 
 import useFetch from "@/hooks/useFetch";
 import { IHotel } from "@/types";
@@ -28,7 +27,7 @@ import { IHotel } from "@/types";
 const Hotel = () => {
   const user = useAuth((store) => store.user);
 
-  const { dates, options } = useSearch((store) => ({
+  const { dates, options } = useSearchStore((store) => ({
     dates: store.dates,
     options: store.options,
   }));
@@ -43,7 +42,7 @@ const Hotel = () => {
   const id = location.pathname.split("/")[2];
   console.log(location.pathname, location, "location hook hotelpage");
 
-  const { data, loading } =useFetch<IHotel>(`/api/hotels/find/${id}`);
+  const { data, loading } = useFetch<IHotel>(`/api/hotels/find/${id}`);
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
@@ -145,8 +144,13 @@ const Hotel = () => {
                   excellent location score of 9.8!
                 </span>
                 <h2>
-                  <b>${days * Number(data?.cheapestPrice) * Number(options?.room) ?? 0}</b>(
-                  {days} nights)
+                  <b>
+                    $
+                    {days *
+                      Number(data?.cheapestPrice) *
+                      Number(options?.room) ?? 0}
+                  </b>
+                  ({days} nights)
                 </h2>
                 <button onClick={handleClick}>Reserve or Book Now!</button>
               </div>

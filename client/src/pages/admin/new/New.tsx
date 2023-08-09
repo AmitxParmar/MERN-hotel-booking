@@ -4,13 +4,20 @@ import Navbar from "@/components/admin/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { ChangeEvent, useState } from "react";
 
+type Inputs = {
+  id: string;
+  type: string;
+  label: string;
+  placeholder?: string;
+};
+
 interface INew {
-  inputs: HTMLInputElement[];
+  inputs: Inputs[];
   title: string;
 }
 
 const New: React.FC<INew> = ({ inputs, title }) => {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | Blob | null>(null);
 
   return (
     <div className="new">
@@ -40,7 +47,9 @@ const New: React.FC<INew> = ({ inputs, title }) => {
                 <input
                   type="file"
                   id="file"
-                  onChange={(e:ChangeEvent) => setFile(e.target.files[0])}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.files?.[0]) setFile(e.target.files?.[0]);
+                  }}
                   style={{ display: "none" }}
                 />
               </div>

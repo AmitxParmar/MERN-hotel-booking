@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/common/auth.store";
 import "./login.css";
 import { shallow } from "zustand/shallow";
 import axios from "axios";
+import type { IUser } from "@/types";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -20,18 +21,19 @@ const Login = () => {
     shallow
   );
 
-  const handleChange = (e): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     console.log(credentials);
   };
 
-  const handleClick = async (e): void => {
+  const handleClick = async (e: SyntheticEvent): Promise<void> => {
     e.preventDefault();
     loginStart();
     try {
-      const res = await axios.post<Promise<T[]>>("/auth/login", credentials);
+      const res = await axios.post("/auth/login", credentials);
       console.log(res, "res");
-      loginSuccess(res.data.details);
+      loginSuccess(res.data.details as IUser);
+      localStorage.setItem("user", JSON.stringify(res.data.details));
       navigate("/");
     } catch (err) {
       loginFailure(err.response.data);
@@ -57,7 +59,8 @@ const Login = () => {
           className="lInput"
         />
         <button
-          /* disabled={loading} */ onClick={handleClick}
+          /*  disabled={loading} */
+          onClick={void handleClick}
           className="lButton"
         >
           Login

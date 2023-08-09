@@ -1,11 +1,13 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./reserve.css";
 import { useState, type Dispatch, type SetStateAction } from "react";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import useFetch from "@/hooks/useFetch";
-import { IRoom } from "@/types";
-import { useSearch } from "@/common/search.store";
 import { useNavigate } from "react-router-dom";
+
+import useFetch from "@/hooks/useFetch";
+import { useSearchStore } from "@/common/search.store";
+
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IRoom } from "@/types";
 
 const Reserve = ({
   setOpen,
@@ -14,7 +16,7 @@ const Reserve = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
   hotelId: string;
 }) => {
-  const dates = useSearch((store) => store.dates);
+  const dates = useSearchStore((store) => store.dates);
   const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
 
   const {
@@ -61,7 +63,7 @@ const Reserve = ({
         : selectedRooms.filter((item: string) => item !== value)
     );
   };
-  const handleClick = async (): void => {
+  const handleClick = async (): Promise<void> => {
     try {
       await Promise.all(
         selectedRooms.map((roomId) => {
@@ -112,7 +114,7 @@ const Reserve = ({
             </div>
           </div>
         ))}
-        <button className="rButton" onClick={handleClick}>
+        <button className="rButton" onClick={void handleClick}>
           Reserve Now!
         </button>
       </div>

@@ -1,15 +1,16 @@
+import { create } from 'zustand'
 import { ISearchParams } from "@/types";
-import { create } from "zustand";
 
 
-export const useSearch = create<ISearchParams>(set => (
-    {
-        city: undefined,
-        dates: [],
-        options: {
-            adult: undefined,
-            children: undefined,
-            room: undefined,
-        },
-    }
-));
+interface SearchStore extends ISearchParams {
+    newSearch: (data: SearchStore) => void;
+    resetSearch: () => void;
+}
+
+export const useSearchStore = create<SearchStore>((set) => ({
+    city: undefined,
+    dates: [],
+    options: undefined,
+    newSearch: (data) => set(data),
+    resetSearch: () => set({ city: undefined, dates: [], options: undefined }),
+}));

@@ -12,7 +12,7 @@ export const useTheme = create<ITheme>(set => (
         toggle: () => set((state) => ({ darkMode: !state })),
         setTheme: (mode) => {
             set({ darkMode: mode })
-            console.log(mode,'darkMode context')
+            console.log(mode, 'darkMode context')
         }
     }
 ))
