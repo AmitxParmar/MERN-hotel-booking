@@ -8,6 +8,7 @@ import { useSearchStore } from "@/common/search.store";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IRoom } from "@/types";
+import axios from "axios";
 
 const Reserve = ({
   setOpen,
@@ -65,12 +66,13 @@ const Reserve = ({
   };
   const handleClick = async (): Promise<void> => {
     try {
+      console.log("....checkin room availability");
       await Promise.all(
         selectedRooms.map((roomId) => {
           const res = axios.put(`/api/rooms/availability/${roomId}`, {
             dates: alldates,
           });
-          return res.data;
+          return console.log("avilability udate", res.data);
         })
       );
       setOpen(false);
@@ -114,7 +116,7 @@ const Reserve = ({
             </div>
           </div>
         ))}
-        <button className="rButton" onClick={void handleClick}>
+        <button className="rButton" onClick={() => void handleClick()}>
           Reserve Now!
         </button>
       </div>

@@ -26,6 +26,11 @@ export interface IHotel {
     featured: boolean
     count: number
 }
+type RoomNumbers = {
+    number: number
+    unavailableDates: [Date]
+    _id: string
+}
 
 export interface IRoom {
     _id: string
@@ -33,12 +38,7 @@ export interface IRoom {
     price: string
     maxPeople: string
     desc: string
-    roomNumbers: [
-        {
-            number: number
-            unavailableDates: [Date]
-        },
-    ],
+    roomNumbers: RoomNumbers[]
 }
 
 
@@ -52,7 +52,7 @@ type Options = {
     adult: number | undefined
     children: number | undefined
     room: number | undefined
-} 
+}
 
 export interface ISearchParams {
     city: string | undefined
