@@ -49,7 +49,7 @@ export const updateRoomAvailability = async (req, res, next) => {
         },
       }
     );
-    console.log("upadated availability");
+    console.log("updated availability");
     res.status(200).json("Room status has been updated.");
   } catch (err) {
     next(err);

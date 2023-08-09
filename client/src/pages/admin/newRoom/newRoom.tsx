@@ -14,7 +14,7 @@ const NewRoom = () => {
   const [hotelId, setHotelId] = useState<string | undefined>(undefined);
   const [rooms, setRooms] = useState("");
 
-  const { data, loading, error } = useFetch<IHotel[]>(`/api/hotels`);
+  const { data, loading,  } = useFetch<IHotel[]>(`/api/hotels`);
   console.log("fetched data, IHotel[] in new room", data);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

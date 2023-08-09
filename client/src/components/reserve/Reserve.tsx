@@ -72,7 +72,7 @@ const Reserve = ({
           const res = axios.put(`/api/rooms/availability/${roomId}`, {
             dates: alldates,
           });
-          return console.log("avilability udate", res.data);
+          return console.log(res);
         })
       );
       setOpen(false);
