@@ -6,13 +6,15 @@ import { createError } from "../utils/error.js";
 export const createRoom = async (req, res, next) => {
   const hotelId = req.params.hotelid;
   const newRoom = new Room(req.body);
-
+  console.log("...adding new room");
   try {
     const savedRoom = await newRoom.save();
+    console.log("room saved");
     try {
       await Hotel.findByIdAndUpdate(hotelId, {
         $push: { rooms: savedRoom._id },
       });
+      console.log("room added to the hotel");
     } catch (err) {
       next(err);
     }

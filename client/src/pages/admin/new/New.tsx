@@ -1,8 +1,12 @@
 import "./new.scss";
+import axios from "axios";
+import { ChangeEvent, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Sidebar from "@/components/admin/sidebar/Sidebar";
 import Navbar from "@/components/admin/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { ChangeEvent, useState } from "react";
 
 type Inputs = {
   id: string;
@@ -18,9 +22,48 @@ interface INew {
 
 const New: React.FC<INew> = ({ inputs, title }) => {
   const [file, setFile] = useState<File | Blob | null>(null);
+  const [info, setInfo] = useState({});
+  console.log(file, info, "has been receiveddd");
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInfo((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
+  const handleClick = async (e: MouseEvent) => {
+    e.preventDefault();
+    console.log("clickHandler!");
+    try {
+      const data = new FormData();
+      data.append("file", file as Blob);
+      data.append("upload_preset", "upload");
+      console.log("trying to post data on cloudinary");
+      const uploadRes = await axios.post(
+        "https://api/cloudinary.com/v1_1/amitxparmar/image/upload",
+        data
+      );
+      const { url } = uploadRes.data;
+      console.log(url, "typecheck", typeof url);
+
+      const newUser = {
+        ...info,
+        img: url as string,
+      };
+
+      console.log(newUser, "ready to register!!");
+
+      toast.success("new hotel created!!");
+      await axios.post(`/api/auth/register/`, newUser);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="new">
+      <ToastContainer />
       <Sidebar />
       <div className="newContainer">
         <Navbar />
@@ -57,10 +100,15 @@ const New: React.FC<INew> = ({ inputs, title }) => {
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <input
+                    id={input.id}
+                    onChange={handleChange}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                  />
                 </div>
               ))}
-              <button>Send</button>
+              <button onClick={void handleClick}>Send</button>
             </form>
           </div>
         </div>

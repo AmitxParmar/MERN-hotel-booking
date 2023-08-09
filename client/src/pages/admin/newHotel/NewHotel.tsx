@@ -1,12 +1,12 @@
 import "./newHotel.scss";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent,  useState } from "react";
+import axios from "axios";
 
 import Sidebar from "@/components/admin/sidebar/Sidebar";
 import Navbar from "@/components/admin/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
 import useFetch from "@/hooks/useFetch";
 import { IRoom } from "@/types";

@@ -1,17 +1,18 @@
-import useFetch from "@/hooks/useFetch";
 import "./newRoom.scss";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import axios from "axios";
 import { IHotel } from "@/types";
+import useFetch from "@/hooks/useFetch";
+import { ChangeEvent, SyntheticEvent, useState } from "react";
 
 import Sidebar from "@/components/admin/sidebar/Sidebar";
 import Navbar from "@/components/admin/navbar/Navbar";
+
 import { roomInputs } from "@/formSource";
-import axios from "axios";
 
 const NewRoom = () => {
   const [info, setInfo] = useState({});
   const [hotelId, setHotelId] = useState<string | undefined>(undefined);
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState("");
 
   const { data, loading, error } = useFetch<IHotel[]>(`/api/hotels`);
   console.log("fetched data, IHotel[] in new room", data);
@@ -19,20 +20,23 @@ const NewRoom = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-  console.log("rooms check", rooms);
+
+  console.log("rooms check, useState", rooms);
+
   const handleClick = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const roomNumbers: string[] = rooms
-      ?.split(",")
-      .map((room) => ({ number: room }));
-
-    alert(roomNumbers);
+    const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
+    console.log(typeof hotelId, "hotelId type check");
     try {
       if (typeof hotelId === "string") {
-        await axios.post(`/api/rooms/${hotelId}`, { ...info, roomNumbers });
+        const newrOOm = await axios.post(`/api/rooms/${hotelId}`, {
+          ...info,
+          roomNumbers,
+        });
+        console.log("post request done!");
+        console.log("data receive from api", newrOOm);
       }
     } catch (err) {
-      alert(err);
       console.log(err);
     }
   };
@@ -61,13 +65,17 @@ const NewRoom = () => {
               ))}
               <div className="formInput">
                 <label htmlFor="">Rooms</label>
-                <textarea placeholder="give comman between room numbers." />
+                <textarea
+                  onChange={(e) => setRooms(e.target.value)}
+                  placeholder="give comman between room numbers."
+                />
               </div>
               <div className="formInput">
                 <label>Choose a hotel</label>
                 <select
                   id="hotelId"
-                  onChange={(e) => setHotelId(e.target.value)}
+                  onChange={(e) => setHotelId(e?.target?.value)}
+                  value={hotelId}
                 >
                   {loading
                     ? "loading"
@@ -79,7 +87,9 @@ const NewRoom = () => {
                       ))}
                 </select>
               </div>
-              <button onClick={void handleClick}>Send</button>
+              <button onClick={(e: SyntheticEvent) => void handleClick(e)}>
+                Send
+              </button>
             </form>
           </div>
         </div>
