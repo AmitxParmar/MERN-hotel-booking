@@ -13,20 +13,10 @@ import NewHotel from "./pages/admin/newHotel/NewHotel";
 import NewRoom from "./pages/admin/newRoom/newRoom";
 import New from "./pages/admin/new/New";
 import { userInputs } from "./formSource";
-import { useAuth } from "./common/auth.store";
-import { Navigate } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const darkMode = useTheme((store) => store.darkMode);
-  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    const user = useAuth((state) => state.user);
-
-    if (!user) {
-      return <Navigate to="/login" />;
-    }
-
-    return children;
-  };
 
   return (
     <>
@@ -45,9 +35,7 @@ function App() {
             <Route path="admin">
               <Route
                 path="register"
-                element={
-                  <New inputs={userInputs} title="Add New User" />
-                }
+                element={<New inputs={userInputs} title="Add New User" />}
               />
               <Route
                 index

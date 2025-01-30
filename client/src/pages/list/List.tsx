@@ -1,46 +1,55 @@
 import "./list.css";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-
 import format from "date-fns/format";
-import { DateRange } from "react-date-range";
-
+import { DateRange, Range, RangeKeyDict } from "react-date-range";
 import Navbar from "@/components/navbar/Navbar";
 import Header from "@/components/header/Header";
 import SearchItem from "@/components/searchItem/SearchItem";
-
 import useFetch from "@/hooks/useFetch";
-
-import { IHotel, ILocationState } from "@/types";
+import { IHotel, ILocationState, Options } from "@/types";
 
 const List = () => {
   const location = useLocation();
-  const {
-    dates: datesParams,
-    destination: destinationParams,
-    options: optionsParams,
-  } = location?.state as ILocationState;
+  const state = location.state as ILocationState | null;
 
-  const [destination, setDestination] = useState(destinationParams);
-  const [dates, setDates] = useState(datesParams);
-  const [options, setOptions] = useState(optionsParams);
-  
+  const [destination, setDestination] = useState<string>(
+    state?.destination ?? ""
+  );
+  const [dates, setDates] = useState<Range[]>([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  const [options, setOptions] = useState<Options>({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+
   const [openDate, setOpenDate] = useState(false);
-  
-  const [min, setMin] = useState<string | undefined>(undefined);
-  const [max, setMax] = useState<string | undefined>(undefined);
+  const [min, setMin] = useState<string>("");
+  const [max, setMax] = useState<string>("");
 
   const {
     data: hotels,
     loading,
     reFetch,
   } = useFetch<IHotel[]>(
-    `/api/hotels?city=${destination}&min=${min ?? 0}&max=${max ?? 999}`
+    `/api/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
   );
 
-  /* functions */
   const handleClick = () => {
     void reFetch();
+  };
+
+  const handleDateChange = (ranges: RangeKeyDict) => {
+    const selection = ranges.selection;
+    if (selection) {
+      setDates([selection]);
+    }
   };
 
   return (
@@ -53,19 +62,23 @@ const List = () => {
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
               <label>Destination</label>
-              <input placeholder={destination} type="text" />
+              <input
+                placeholder={destination}
+                type="text"
+                onChange={(e) => setDestination(e.target.value)}
+              />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>
               <span onClick={() => setOpenDate(!openDate)}>
                 {`${format(
-                dates[0].startDate,
-                "MM/dd/yyyy"
-                )} to ${format(dates[0].endDate, "MM/dd/yyyy")}`}
+                  dates[0].startDate || new Date(),
+                  "MM/dd/yyyy"
+                )} to ${format(dates[0].endDate || new Date(), "MM/dd/yyyy")}`}
               </span>
               {openDate && (
                 <DateRange
-                  onChange={(item) => setDates([item?.selection])}
+                  onChange={handleDateChange}
                   minDate={new Date()}
                   ranges={dates}
                 />
@@ -101,6 +114,9 @@ const List = () => {
                     min={1}
                     className="lsOptionInput"
                     placeholder={String(options.adult)}
+                    onChange={(e) =>
+                      setOptions({ ...options, adult: Number(e.target.value) })
+                    }
                   />
                 </div>
                 <div className="lsOptionItem">
@@ -110,6 +126,12 @@ const List = () => {
                     min={0}
                     className="lsOptionInput"
                     placeholder={String(options.children)}
+                    onChange={(e) =>
+                      setOptions({
+                        ...options,
+                        children: Number(e.target.value),
+                      })
+                    }
                   />
                 </div>
                 <div className="lsOptionItem">
@@ -119,6 +141,9 @@ const List = () => {
                     min={1}
                     className="lsOptionInput"
                     placeholder={String(options.room)}
+                    onChange={(e) =>
+                      setOptions({ ...options, room: Number(e.target.value) })
+                    }
                   />
                 </div>
               </div>

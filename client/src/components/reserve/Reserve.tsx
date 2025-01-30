@@ -20,11 +20,7 @@ const Reserve = ({
   const dates = useSearchStore((store) => store.dates);
   const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
 
-  const {
-    data: rooms,
-    loading: isRoomLoading,
-    error,
-  } = useFetch<IRoom[]>(`/api/hotels/room/${hotelId}`);
+  const { data: rooms } = useFetch<IRoom[]>(`/api/hotels/room/${hotelId}`);
 
   const navigate = useNavigate();
 
@@ -69,10 +65,9 @@ const Reserve = ({
       console.log("....checkin room availability");
       await Promise.all(
         selectedRooms.map((roomId) => {
-          const res = axios.put(`/api/rooms/availability/${roomId}`, {
+          return axios.put(`/api/rooms/availability/${roomId}`, {
             dates: alldates,
           });
-          return console.log(res);
         })
       );
       setOpen(false);
@@ -103,7 +98,7 @@ const Reserve = ({
             </div>
             <div className="rSelectRooms">
               {room.roomNumbers.map((roomNumber) => (
-                <div className="room">
+                <div className="room" key={roomNumber._id}>
                   <label>{roomNumber.number}</label>
                   <input
                     type="checkbox"

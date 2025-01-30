@@ -1,19 +1,20 @@
 import "./login.css";
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/common/auth.store";
 import { shallow } from "zustand/shallow";
-import axios from "axios";
-import type { IUser } from "@/types";
+import axios, { AxiosError } from "axios";
+import { IUser, IErrorResponse } from "@/types";
+
+interface Credentials {
+  username?: string;
+  password?: string;
+}
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const [credentials, setCredentials] = useState({
-    username: undefined,
-    password: undefined,
-  });
-  const [error, setError] = useState<Error | null | undefined>(null);
+  const [credentials, setCredentials] = useState<Credentials>({});
+  const [error, setError] = useState<string>("");
 
   const { loginSuccess, loginStart, loginFailure } = useAuth(
     (store) => ({
@@ -26,24 +27,28 @@ const Login = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-    console.log(credentials);
   };
 
-  const handleClick = async (e: SyntheticEvent): Promise<void> => {
+  const handleClick = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
-    console.log("loggin in");
     loginStart();
+
     try {
-      console.log("client, logging in pass, id");
-      const res = await axios.post("/api/auth/login", credentials);
-      console.log(res, "res");
-      loginSuccess(res.data.details as IUser);
-      localStorage.setItem("user", JSON.stringify(res.data.details));
+      const res = await axios.post<IUser>("/api/auth/login", credentials);
+      loginSuccess(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
       navigate("/");
     } catch (err) {
-      setError(err);
-      loginFailure(err.response.data);
-      console.log(err, "err in handleClick");
+      const error = err as AxiosError;
+      if (error.response) {
+        const errorData = error.response.data as IErrorResponse;
+        const errorMessage = errorData.message || "Login failed";
+        setError(errorMessage);
+        loginFailure(errorMessage);
+      } else {
+        setError("An unknown error occurred");
+      }
+      console.log(error, "err in handleClick");
     }
   };
 
@@ -64,17 +69,11 @@ const Login = () => {
           onChange={handleChange}
           className="lInput"
         />
-        <button
-          /*  disabled={loading} */
-          onClick={(e) => void handleClick(e)}
-          className="lButton"
-        >
+        <button onClick={(e) => void handleClick(e)} className="lButton">
           Login
         </button>
         {error && (
-          <span style={{ color: "red", fontSize: "13px" }}>
-            {error.message}
-          </span>
+          <span style={{ color: "red", fontSize: "13px" }}>{error}</span>
         )}
       </div>
     </div>

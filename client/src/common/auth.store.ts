@@ -5,20 +5,21 @@ import { IUser } from "@/types";
 interface IAuth {
   user: IUser | null | undefined;
   loading: boolean; // I'll change that later
-  error: Error | null | undefined;
+  error: null | undefined | string;
   loginStart: () => void;
   loginSuccess: (user: IUser) => void;
-  loginFailure: (error: Error | null | undefined) => void;
+  loginFailure: (error: null | undefined | string) => void;
   logout: () => void;
 }
 
 export const useAuth = create<IAuth>((set) => ({
-  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || "{}") : null,
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") || "{}")
+    : null,
   loading: false,
   error: null,
   loginStart: () => set({ loading: true }),
-  loginSuccess: (user) => set(
-    { user, loading: false }),
+  loginSuccess: (user) => set({ user, loading: false }),
   loginFailure: (error) => set({ error, loading: false }),
   logout: () => {
     localStorage.clear();

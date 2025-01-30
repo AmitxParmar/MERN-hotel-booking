@@ -1,10 +1,11 @@
 import React from "react";
+import { IUser } from "@/types";
 
 export type UserColumns = {
   field: string;
   headerName: string;
   width: number;
-  renderCell?: (params: unknown) => React.JSX.Element;
+  renderCell?: (params: { row: IUser }) => React.JSX.Element;
 };
 
 export const userColumns: UserColumns[] = [
@@ -13,7 +14,7 @@ export const userColumns: UserColumns[] = [
     field: "user",
     headerName: "User",
     width: 230,
-    renderCell: (params) => {
+    renderCell: (params: { row: IUser }) => {
       return (
         <div className="adminCellWithImg">
           <img className="adminCellImg" src={params.row.img} alt="avatar" />
@@ -37,7 +38,7 @@ export const userColumns: UserColumns[] = [
     field: "status",
     headerName: "Status",
     width: 160,
-    renderCell: (params) => {
+    renderCell: (params: { row: IUser }) => {
       return (
         <div className={`adminCellWithStatus ${params.row.status}`}>
           {params.row.status}

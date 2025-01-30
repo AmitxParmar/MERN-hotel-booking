@@ -6,7 +6,6 @@ const Featured = () => {
   const { data, loading } = useFetch<IHotel[]>(
     "/api/hotels/countByCity?cities=berlin,madrid,london"
   );
-  
 
   return (
     <div className="featured">
@@ -23,7 +22,7 @@ const Featured = () => {
             <div className="featuredTitles">
               <h1>Berlin</h1>
               <h2>
-                {/* {data[0]} */}
+                {data?.length}
                 properties
               </h2>
             </div>

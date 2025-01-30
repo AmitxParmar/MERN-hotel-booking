@@ -17,18 +17,15 @@ const Navbar = () => {
       <div className="adminWrapper">
         <div className="adminSearch">
           <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon /> 
+          <SearchOutlinedIcon />
         </div>
         <div className="adminItems">
           <div className="adminItem">
             <LanguageOutlinedIcon className="adminIcon" />
             English
-          </div> 
+          </div>
           <div className="adminItem">
-            <DarkModeOutlinedIcon
-              className="adminIcon"
-              onClick={() => console.log("change function here")}
-            />
+            <DarkModeOutlinedIcon className="adminIcon" onClick={toggleTheme} />
           </div>
           <div className="adminItem">
             <FullscreenExitOutlinedIcon className="adminIcon" />

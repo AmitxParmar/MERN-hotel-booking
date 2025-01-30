@@ -1,16 +1,16 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
+// import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+// import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+// import InsertChartIcon from "@mui/icons-material/InsertChart";
+// import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+// import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+// import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
+// import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
+// import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 
 import { Link } from "react-router-dom";
 
@@ -50,21 +50,18 @@ const Sidebar: React.FC = () => {
           </Link>
           <li>
             <ExitToAppIcon className="adminIcon" />
-            <button className="logoutButn" onClick={()=>console.log("logOut")}>
+            <button
+              className="logoutButn"
+              onClick={() => console.log("logOut")}
+            >
               <span>Logout</span>
             </button>
           </li>
         </ul>
       </div>
       <div className="adminBottom">
-        <div
-          className="adminColorOption"
-          onClick={() => setTheme(false)}
-        ></div>
-        <div
-          className="adminColorOption"
-          onClick={() => setTheme(true)}
-        ></div>
+        <div className="adminColorOption" onClick={() => setTheme(false)}></div>
+        <div className="adminColorOption" onClick={() => setTheme(true)}></div>
       </div>
     </div>
   );

@@ -16,11 +16,14 @@ import { DateRange } from "react-date-range";
 import "./header.css";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import { useAuth } from "@/common/auth.store";
 
 const Header = ({ type }: { type?: string }) => {
   const [destination, setDestination] = useState<string>("");
   const [openDate, setOpenDate] = useState<boolean>(false);
-  const [dates, setDates] = useState([
+  const [dates, setDates] = useState<
+    { startDate: Date; endDate: Date; key: string }[]
+  >([
     {
       startDate: new Date(),
       endDate: new Date(),
@@ -34,13 +37,16 @@ const Header = ({ type }: { type?: string }) => {
     room: 1,
   });
 
+  const user = useAuth((state) => state.user);
   const navigate = useNavigate();
 
-  const handleOption = (name: string, operation: string): void => {
+  type OptionKeys = "adult" | "children" | "room";
+
+  const handleOption = (name: OptionKeys, operation: string): void => {
     setOptions((prev) => {
       return {
         ...prev,
-        [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
+        [name]: operation === "i" ? prev[name] + 1 : prev[name] - 1,
       };
     });
   };
@@ -87,11 +93,7 @@ const Header = ({ type }: { type?: string }) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Lamabooking account
             </p>
-            {
-              /* !user */ true && (
-                <button className="headerBtn">Sign in / Register</button>
-              )
-            }
+            {!user && <button className="headerBtn">Sign in / Register</button>}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
@@ -114,7 +116,18 @@ const Header = ({ type }: { type?: string }) => {
                 {openDate && (
                   <DateRange
                     editableDateInputs={true}
-                    onChange={(item) => setDates([item.selection])}
+                    onChange={(ranges) => {
+                      const selection = ranges.selection;
+                      if (selection) {
+                        setDates([
+                          {
+                            startDate: selection.startDate || new Date(),
+                            endDate: selection.endDate || new Date(),
+                            key: "selection",
+                          },
+                        ]);
+                      }
+                    }}
                     moveRangeOnFirstSelection={false}
                     ranges={dates}
                     className="date"
